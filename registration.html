@@ -1,0 +1,153 @@
+<html>
+<head> 
+ <title>Login123</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <style>
+  .frm
+  {
+   background-color:#bdbdbd;
+   height:30px;
+   top:50%;
+   text-align:center;
+  }
+  .out
+  {
+   border: 2px solid black;
+   border-collapse:collapse;
+   width:400px;
+   height:550px;
+   margin-top:100px;
+   margin-left:600px;
+   margin-right:600px;
+  } 
+  .down
+  {
+   padding:20px;
+   text-align:center;
+   padding-top:40px;
+  }
+  #buton{padding-left:170px;}
+  input#name:invalid:focus{
+   border:1px solid black;
+  }
+  
+  </style>
+</head>
+<body>
+    <a href="./project.html">Project Page</a>
+  <div class="out">
+    <div class="frm">FORM</div>
+	<div class="in">
+    <form id="user">
+	  <div  class="down">
+      <label  for="name"> Name</label>
+	  <input type="text" name="name" id="name" placeholder="Enter your name" required>
+	  </div>
+	  <div  class="down">
+	  <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your mail id" name="email" required>
+	  </div>
+	  <div class="down">
+	  <label for="password"> Password </label>
+	  <input type="password" id="password" placeholder="enter password" required name="password">
+	  </div>
+	  <div class="down">
+	  <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="dob" required  value=Date()>
+	  </div>
+	  <div class="down">
+	   <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+       <label for="acceptTerms">Accept Terms & Conditions</label>
+	  </div>
+	 <div id="buton"> 
+	  <button type="submit"> SUBMIT</button>
+	 </div>
+    </form>
+   </div>
+  </div>
+  <div class="relative bg-white px-6 mt-5 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg sm:px-10">
+<div class="mx-auto">
+    <h2 class="text-3xl text-center font-bold leading-tight">Entries</h2>
+    <div class="divide-y divide-gray-300/50 text-center" id="user-entries"></div>
+</div>
+</div>
+
+
+
+<script>
+       let userForm=document.getElementById("user");
+const retrieveEntries=()=>{
+    let entries=localStorage.getItem("user-entries");
+    if(entries){entries=JSON.parse(entries);}
+    else{entries=[];}
+    return entries;
+}
+
+window.onload = function() {
+    var date = new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    minYear = yyyy - 55; 
+    maxYear = yyyy - 18; 
+
+    var min = minYear + "-" + mm + "-" + dd;
+    var max = maxYear + "-" + mm + "-" + dd;
+
+    document.getElementById("dob").setAttribute("min", min);
+    document.getElementById("dob").setAttribute("max", max);
+  };
+
+
+let userEntries=retrieveEntries();
+const displayEntries=()=>{
+    const entries=retrieveEntries();
+    const tableEntries=entries.map((entry)=>{
+        const nameCell=`<td class='border px-4 py-2 text-center'>${entry.name}</td>`;
+        const emailCell=`<td class='border px-4 py-2 text-center'>${entry.email}</td>`;
+        const passwordCell=`<td class='border px-4 py-2 text-center'>${entry.password}</td>`;
+        const dobCell=`<td class='border px-4 py-2 text-center'>${entry.dob}</td>`;
+        const acceptTermsCell=`<td class='border px-4 py-2 text-center'>${entry.acceptTermsandconditions}</td>`;
+        const row=`<tr>${nameCell} ${emailCell} ${passwordCell} ${dobCell} ${acceptTermsCell}</tr>`;
+        return row;
+    }).join("\n");
+    const table=`<table class="table-auto w-full d-flex justify-content-center align-items-center"><tr>
+    <th class="px-4 py-2 text-center ">Name</th>
+    <th class="px-4 py-2 text-center  ">Email</th>
+    <th class="px-4 py-2 text-center ">Password</th>
+    <th class="px-4 py-2 text-center ">DOB</th>
+    <th class="px-4 py-2 text-center ">Accepted Terms?</th>
+    </tr>${tableEntries}</table>`;
+    let details=document.getElementById("user-entries");
+    details.innerHTML=table;
+}
+const saveUserForm=(event)=>{
+event.preventDefault();
+const name=document.getElementById("name").value;
+const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+  const dob=document.getElementById("dob").value;
+  const acceptTermsandconditions=document.getElementById("acceptTerms").checked;
+
+const entry={
+name,
+  email,
+  password,
+  dob,
+  acceptTermsandconditions
+};
+userEntries.push(entry);
+  localStorage.setItem("user-entries",JSON.stringify(userEntries));
+  displayEntries();
+}
+userForm.addEventListener("submit",saveUserForm);
+displayEntries();
+</script>
+</body>
+</html>

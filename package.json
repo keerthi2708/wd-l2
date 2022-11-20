@@ -1,0 +1,23 @@
+{
+  "name": "wdbackend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+     "start":"node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keerthi2708/hello-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/keerthi2708/hello-node/issues"
+  },
+  "homepage": "https://github.com/keerthi2708/hello-node#readme",
+  "description": "",
+  "dependencies": {
+    "minimist": "^1.2.7"
+  }
+}
